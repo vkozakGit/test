@@ -1,4 +1,4 @@
-package my.example.test.dto;
+package com.mycompany.test.dto;
 
 public record WrapperDto(String id, DataDto dataDto) {
 }

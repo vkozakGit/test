@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: my-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      my-network:
+        aliases:
+          - my-mongo
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-app
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    networks:
+      my-network:
+        aliases:
+          - my-app
+networks:
+  my-network:

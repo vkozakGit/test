@@ -1,36 +1,26 @@
 plugins {
-    id 'java'
     id 'org.springframework.boot' version '3.0.0'
-    id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.graalvm.buildtools.native' version '0.9.20'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
-group = 'my.example'
-version = '0.0.1-SNAPSHOT'
+group = 'com.mycompany'
 sourceCompatibility = '17'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
 
 repositories {
     mavenCentral()
-    gradlePluginPortal()
 }
 
 dependencies {
-    implementation group: 'org.graalvm.buildtools', name: 'native-maven-plugin', version: '0.9.19'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '3.0.0', ext: 'pom'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation group:'com.h2database', name: 'h2', version: '2.1.214'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+}
+
+bootJar {
+    archiveName = 'myapp.jar'
 }
