@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:6.0
     container_name: my-mongo
     restart: always
     ports:
@@ -12,6 +12,22 @@ services:
       my-network:
         aliases:
           - my-mongo
+  postgres:
+    image: postgres:15.0
+    container_name: my-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      my-network:
+        aliases:
+          - my-postgres
   app:
     build:
       context: .
@@ -20,8 +36,15 @@ services:
     restart: always
     ports:
       - "8080:8080"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/mydb
+      MONGODB_DATABASE: mydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
     depends_on:
       - mongo
+      - postgres
     networks:
       my-network:
         aliases:

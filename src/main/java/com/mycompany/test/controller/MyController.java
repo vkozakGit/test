@@ -1,9 +1,9 @@
 package com.mycompany.test.controller;
 
-import com.mycompany.test.dto.DataDto;
-import com.mycompany.test.entity.MyData;
-import com.mycompany.test.service.MyMongoDbService;
+import com.mycompany.test.dto.PersonData;
+import com.mycompany.test.service.PersonsDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,23 +12,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/test")
 public class MyController {
-	public final MyMongoDbService myMongoDbService;
+	public final PersonsDataService<PersonData> service;
 
 	@Autowired
-	public MyController(MyMongoDbService myMongoDbService) {
-		this.myMongoDbService = myMongoDbService;
+	public MyController(@Qualifier("myPostgresqlService") PersonsDataService<PersonData> service) {
+		this.service = service;
 	}
 
 	@GetMapping("/getAll")
-	public ResponseEntity<List<MyData>> myEndpointGet() {
-		List<MyData> allPosts = myMongoDbService.findAll();
+	public ResponseEntity<List<PersonData>> myEndpointGet() {
+		List<PersonData> allPosts = service.findAllPersons();
 		return ResponseEntity.ok(allPosts);
 	}
 
 
 	@PutMapping("/putData")
-	public ResponseEntity<Void> myEndpointPut(@RequestBody DataDto dataDto) {
-		myMongoDbService.putData(dataDto);
+	public ResponseEntity<Void> myEndpointPut(@RequestBody PersonData personData) {
+		service.putPerson(personData);
 		return ResponseEntity.noContent().build();
 	}
 }

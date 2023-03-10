@@ -23,8 +23,8 @@ COPY --from=builder /home/gradle/src/build/libs/myapp.jar myapp.jar
 EXPOSE 8080
 
 # Set environment variables for MongoDB connection
-ENV MONGODB_URI mongodb://mongo:27017/mydb
-ENV MONGODB_DATABASE mydb
+#ENV MONGODB_URI
+#ENV MONGODB_DATABASE
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "myapp.jar"]
