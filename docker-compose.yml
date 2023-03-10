@@ -39,9 +39,6 @@ services:
     environment:
       MONGODB_URI: mongodb://mongo:27017/mydb
       MONGODB_DATABASE: mydb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
     depends_on:
       - mongo
       - postgres
